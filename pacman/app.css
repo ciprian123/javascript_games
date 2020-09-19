@@ -1,0 +1,52 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#title, #score {
+    text-align: center;
+    color: #424242;
+}
+
+.tile {
+    width: 25px;
+    height: 25px;
+    justify-content: space-between;
+}
+
+.wallTile {
+    background: #1D00DB;
+}
+
+.roadTile {
+    background: white;
+}
+
+.pointTile {
+    background: #64ffda;
+    border-radius: 16px;
+    border: 7px solid white;
+}
+
+.playerTile {
+    background: #FFC107;
+}
+
+.ghostTile {
+    background: red;
+    border: 7px solid white;
+}
+
+#map {
+    width: 425px;
+    height: 425px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin: auto;
+}
