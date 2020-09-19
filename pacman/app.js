@@ -54,7 +54,7 @@ function updateUserScore() {
 }
 
 function movePlayerUp() {
-    if (playerIndex - mapHeight >= 0 && !Config.tiles[playerIndex].classList.contains('wallTile')) {
+    if (playerIndex - mapHeight >= 0 && !Config.tiles[playerIndex - mapHeight].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
         Config.tiles[playerIndex].classList.add('roadTile');
 
@@ -73,7 +73,7 @@ function movePlayerUp() {
 }
 
 function movePlayerDown() {
-    if (playerIndex + mapHeight < Config.tiles.length && !Config.tiles[playerIndex].classList.contains('wallTile')) {
+    if (playerIndex + mapHeight < Config.tiles.length && !Config.tiles[playerIndex + mapHeight].classList.contains('wallTile')) {
         
         Config.tiles[playerIndex].classList.remove('playerTile');
         Config.tiles[playerIndex].classList.add('roadTile');
@@ -101,17 +101,11 @@ function movePlayerLeft() {
         Config.tiles[playerIndex].classList.add('playerTile');
         Config.tiles[playerIndex].classList.remove('pointTile');
     }
-    else if (!Config.tiles[playerIndex].classList.contains('wallTile')) {
+    else if (!Config.tiles[playerIndex - 1].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
         playerIndex--;
         updateUserScore();
         Config.tiles[playerIndex].classList.add('playerTile');
-    }
-    else {
-        Config.tiles[playerIndex].classList.remove('playerTile');
-        playerIndex += mapWidth;
-        Config.tiles[playerIndex].classList.add('playerTile');
-        Config.tiles[playerIndex].classList.remove('pointTile');
     }
 }
 
@@ -123,17 +117,11 @@ function movePlayerRight() {
         Config.tiles[playerIndex].classList.add('playerTile');
         Config.tiles[playerIndex].classList.remove('pointTile');
     }
-    else if (!Config.tiles[playerIndex].classList.contains('wallTile')) {
+    else if (!Config.tiles[playerIndex + 1].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
         playerIndex++;
         updateUserScore();
         Config.tiles[playerIndex].classList.add('playerTile');
-    }
-    else {
-        Config.tiles[playerIndex].classList.remove('playerTile');
-        playerIndex -= mapWidth;
-        Config.tiles[playerIndex].classList.add('playerTile');
-        Config.tiles[playerIndex].classList.remove('pointTile');
     }
 }
 
