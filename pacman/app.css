@@ -8,7 +8,7 @@ body {
     box-sizing: border-box;
 }
 
-#title, #score {
+#title, #score_label {
     text-align: center;
     color: #424242;
 }
