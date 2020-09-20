@@ -34,12 +34,11 @@ body {
 }
 
 .playerTile {
-    background: #FFC107;
+    background: url('assets/pacman.png');
 }
 
 .ghostTile {
-    background: red;
-    border: 7px solid white;
+    background: url('assets/ghost.png');
 }
 
 #map {

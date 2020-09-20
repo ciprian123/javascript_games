@@ -10,12 +10,6 @@ const mapHeight = 17;
 
 let playerIndex = 144;
 
-for (let i = 0; i < Config.map.length; ++i) {
-    if (Config.map[i] == 20) {
-        console.log(i);
-    }
-}
-
 function renderMap() {
     for (let i = 0; i < Config.map.length; ++i) {
         let tile = document.createElement('div');
@@ -42,6 +36,8 @@ function renderMap() {
         }
         gameMap.appendChild(tile);
         Config.tiles.push(tile);
+        Config.defaultTiles.push(tile);
+        Config.eatenPointsSoRar.push(false);
     }
 }
 
@@ -49,6 +45,7 @@ function updateUserScore() {
     if (Config.tiles[playerIndex].classList.contains('pointTile')) {
         Config.tiles[playerIndex].classList.remove('pointTile');
         tmpScore++;
+        Config.eatenPointsSoRar[playerIndex] = true;
     }
     userScore.innerHTML = tmpScore;
 }
@@ -140,6 +137,64 @@ function movePlayer(event) {
     }
 }
 
+function resetMap() {
+    Config.tiles = [...Config.defaultTiles]
+}
+
 renderMap(); 
 
 document.addEventListener('keyup', movePlayer);
+
+
+// the ghost are spamming in the map corners, not in the center of the map
+let ghostIndex1 = 18;
+let ghostIndex2 = 32;
+let ghostIndex3 = 236;
+let ghostIndex4 = 239;
+
+function isValidGhostMoveIndex(index) {
+    return index >= 0 && 
+           index < Config.tiles.length &&
+           !Config.tiles[index].classList.contains('wallTile') &&
+           !Config.tiles[index].classList.contains('ghostTile');
+}
+
+function rotateArray(arr) {
+    let tmp = arr[0];
+    arr.pop();
+    arr.push(tmp);
+}
+
+function moveGhostEasyDifficulty(ghostIndex) {
+    const directions = [1, -1, mapHeight, -mapHeight];
+    for (let i = 0; i < directions.length; ++i) {
+        if (isValidGhostMoveIndex(ghostIndex + directions[i])) {
+            Config.tiles[ghostIndex].classList.remove('ghostTile');
+            if (Config.eatenPointsSoRar[ghostIndex] == false) {
+                Config.tiles[ghostIndex].classList.add('pointTile');
+            }
+            ghostIndex += directions[i];
+            Config.tiles[ghostIndex].classList.remove('pointTile');
+            Config.tiles[ghostIndex].classList.add('ghostTile');
+            break;
+        }
+    }
+    return ghostIndex;
+}
+
+setInterval(() => {
+    ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
+    console.log(1);
+}, 700);
+
+setInterval(() => {
+    ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
+}, 900);
+
+setInterval(() => {
+    ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
+}, 1100);
+
+setInterval(() => {
+    ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
+}, 1300);
