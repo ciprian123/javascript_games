@@ -179,7 +179,11 @@ function isValidGhostMoveIndex(index) {
     return index >= 0 && 
            index < Config.tiles.length &&
            !Config.tiles[index].classList.contains('wallTile') &&
-           !Config.tiles[index].classList.contains('ghostTile');
+           !Config.tiles[index].classList.contains('ghostTile') &&
+           !Config.tiles[index].classList.contains('clyde') &&
+           !Config.tiles[index].classList.contains('pinky') &&
+           !Config.tiles[index].classList.contains('blinky') &&
+           !Config.tiles[index].classList.contains('inky');
 }
 
 function rotateArray(arr) {
@@ -211,37 +215,48 @@ function getGhost(index) {
 }
 
 function moveGhostEasyDifficulty(ghostIndex) {
-    let directions = [1, mapHeight, -1, -mapHeight];
-    for (let i = 0; i < directions.length; ++i) {
-        if (isValidGhostMoveIndex(ghostIndex + directions[i])) {
-            let ghostName = getGhost(ghostIndex);
-            clearGhost(ghostIndex);
-            if (Config.eatenPointsSoRar[ghostIndex] == false) {
-                Config.tiles[ghostIndex].classList.add('pointTile');
-            }
-            ghostIndex += directions[i];
-            Config.tiles[ghostIndex].classList.remove('pointTile');
-            Config.tiles[ghostIndex].classList.add(ghostName);
-            rotateArray(directions);
-            break;
-        }
+    let directions = [];
+
+    if (isValidGhostMoveIndex(ghostIndex + 1)) {
+        directions.push(1);
     }
+    if (isValidGhostMoveIndex(ghostIndex - 1)) {
+        directions.push(-1);
+    }
+    if (isValidGhostMoveIndex(ghostIndex + mapWidth)) {
+        directions.push(mapWidth);
+    }
+    if (isValidGhostMoveIndex(ghostIndex - mapWidth)) {
+        directions.push(-mapWidth);
+    }
+
+    const direction = directions[parseInt(Math.random() * directions.length)];
+    let ghostName = getGhost(ghostIndex);
+    clearGhost(ghostIndex);
+    if (Config.eatenPointsSoRar[ghostIndex] == false && !Config.tiles[ghostIndex].classList.contains('roadTile')) {
+        Config.tiles[ghostIndex].classList.add('pointTile');
+    }
+    ghostIndex += direction;
+    Config.tiles[ghostIndex].classList.remove('pointTile');
+    Config.tiles[ghostIndex].classList.add(ghostName);
+    rotateArray(directions);
+
     return ghostIndex;
 }
 
 setInterval(() => {
     ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
     console.log(1);
-}, 1000);
-
-setInterval(() => {
-    ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
-}, 1300);
-
-setInterval(() => {
-    ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
 }, 1500);
 
 setInterval(() => {
+    ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
+}, 2000);
+
+setInterval(() => {
+    ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
+}, 2500);
+
+setInterval(() => {
     ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
-}, 1700);
+}, 2700);
