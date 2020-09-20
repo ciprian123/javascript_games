@@ -170,6 +170,11 @@ let ghostIndex2 = 32;
 let ghostIndex3 = 236;
 let ghostIndex4 = 239;
 
+Config.tiles[ghostIndex1].classList.add('blinky');
+Config.tiles[ghostIndex2].classList.add('inky');
+Config.tiles[ghostIndex3].classList.add('pinky');
+Config.tiles[ghostIndex4].classList.add('clyde');
+
 function isValidGhostMoveIndex(index) {
     return index >= 0 && 
            index < Config.tiles.length &&
@@ -178,22 +183,46 @@ function isValidGhostMoveIndex(index) {
 }
 
 function rotateArray(arr) {
-    let tmp = arr[0];
-    arr.pop();
-    arr.push(tmp);
+    arr.sort(() => Math.random() - 0.5);
+    console.log(arr);
+}
+
+function clearGhost(index) {
+    Config.tiles[index].classList.remove('blinky');
+    Config.tiles[index].classList.remove('inky');
+    Config.tiles[index].classList.remove('pinky');
+    Config.tiles[index].classList.remove('clyde');
+}
+
+function getGhost(index) {
+    if (Config.tiles[index].classList.contains('blinky')) {
+        return 'blinky';
+    }
+    if (Config.tiles[index].classList.contains('pinky')) {
+        return 'pinky';
+    }
+    if (Config.tiles[index].classList.contains('inky')) {
+        return 'inky';
+    }
+    if (Config.tiles[index].classList.contains('clyde')) {
+        return 'clyde';
+    }
+    return '';
 }
 
 function moveGhostEasyDifficulty(ghostIndex) {
-    const directions = [1, -1, mapHeight, -mapHeight];
+    let directions = [1, mapHeight, -1, -mapHeight];
     for (let i = 0; i < directions.length; ++i) {
         if (isValidGhostMoveIndex(ghostIndex + directions[i])) {
-            Config.tiles[ghostIndex].classList.remove('ghostTile');
+            let ghostName = getGhost(ghostIndex);
+            clearGhost(ghostIndex);
             if (Config.eatenPointsSoRar[ghostIndex] == false) {
                 Config.tiles[ghostIndex].classList.add('pointTile');
             }
             ghostIndex += directions[i];
             Config.tiles[ghostIndex].classList.remove('pointTile');
-            Config.tiles[ghostIndex].classList.add('ghostTile');
+            Config.tiles[ghostIndex].classList.add(ghostName);
+            rotateArray(directions);
             break;
         }
     }
@@ -203,16 +232,16 @@ function moveGhostEasyDifficulty(ghostIndex) {
 setInterval(() => {
     ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
     console.log(1);
-}, 700);
+}, 1000);
 
 setInterval(() => {
     ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
-}, 900);
+}, 1300);
 
 setInterval(() => {
     ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
-}, 1100);
+}, 1500);
 
 setInterval(() => {
     ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
-}, 1300);
+}, 1700);

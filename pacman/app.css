@@ -36,7 +36,7 @@ body {
 }
 
 .ghostTile {
-    background: url('assets/ghost.png');
+    /* background: url('assets/ghost.png'); */
 }
 
 .move_up {
@@ -53,6 +53,22 @@ body {
 
 .move_right {
     background: url('assets/playerRight.png');
+}
+
+.blinky {
+    background: url('assets/blinky.png');
+}
+
+.inky {
+    background: url('assets/inky.png');
+}
+
+.pinky {
+    background: url('assets/pinky.png');
+}
+
+.clyde {
+    background: url('assets/clyde.png');
 }
 
 #map {
