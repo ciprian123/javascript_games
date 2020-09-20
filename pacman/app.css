@@ -20,7 +20,7 @@ body {
 }
 
 .wallTile {
-    background: #1D00DB;
+    background: url('assets/wall1.png');
 }
 
 .roadTile {
@@ -28,17 +28,31 @@ body {
 }
 
 .pointTile {
-    background: #64ffda;
-    border-radius: 16px;
-    border: 7px solid white;
+    background: url('assets/basic_point.png');
 }
 
 .playerTile {
-    background: url('assets/pacman.png');
+    background: url('assets/playerLeft.png');
 }
 
 .ghostTile {
     background: url('assets/ghost.png');
+}
+
+.move_up {
+    background: url('assets/playerUp.png');
+}
+
+.move_down {
+    background: url('assets/playerDown.png');
+}
+
+.move_left {
+    background: url('assets/playerLeft.png');
+}
+
+.move_right {
+    background: url('assets/playerRight.png');
 }
 
 #map {

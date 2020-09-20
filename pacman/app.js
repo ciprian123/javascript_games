@@ -50,79 +50,97 @@ function updateUserScore() {
     userScore.innerHTML = tmpScore;
 }
 
+function resetOrientation() {
+    Config.tiles[playerIndex].classList.remove('move_up');
+    Config.tiles[playerIndex].classList.remove('move_down');
+    Config.tiles[playerIndex].classList.remove('move_left');
+    Config.tiles[playerIndex].classList.remove('move_right');
+}
+
 function movePlayerUp() {
+    Config.tiles[playerIndex].classList.add('move_up');
     if (playerIndex - mapHeight >= 0 && !Config.tiles[playerIndex - mapHeight].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
         Config.tiles[playerIndex].classList.add('roadTile');
-
+        resetOrientation();
         playerIndex -= mapHeight;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_up');
     }
     else if (playerIndex == 8) {
         // move from top to bottom
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex = 263;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_up');
         Config.tiles[playerIndex].classList.remove('pointTile');
     }
 }
 
 function movePlayerDown() {
+    Config.tiles[playerIndex].classList.add('move_down');
     if (playerIndex + mapHeight < Config.tiles.length && !Config.tiles[playerIndex + mapHeight].classList.contains('wallTile')) {
         
         Config.tiles[playerIndex].classList.remove('playerTile');
         Config.tiles[playerIndex].classList.add('roadTile');
-
+        resetOrientation();
         playerIndex += mapHeight;
 
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_down');
     }
     else if (playerIndex == 263) {
         // move from top to bottom
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex = 8;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_down');
         Config.tiles[playerIndex].classList.remove('pointTile');
     }
 }
 
 function movePlayerLeft() {
+    Config.tiles[playerIndex].classList.add('move_right');
     if (playerIndex == 136) {
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex = 152;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
-        Config.tiles[playerIndex].classList.remove('pointTile');
+        Config.tiles[playerIndex].classList.add('move_right');
+        Config.tiles[playerIndex].classList.remove('playerTile');
     }
     else if (!Config.tiles[playerIndex - 1].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex--;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_right');
     }
 }
 
 function movePlayerRight() {
+    Config.tiles[playerIndex].classList.add('move_left');
     if (playerIndex == 152) {
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex = 136;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_left');
         Config.tiles[playerIndex].classList.remove('pointTile');
     }
     else if (!Config.tiles[playerIndex + 1].classList.contains('wallTile')) {
         Config.tiles[playerIndex].classList.remove('playerTile');
+        resetOrientation();
         playerIndex++;
         updateUserScore();
-        Config.tiles[playerIndex].classList.add('playerTile');
+        Config.tiles[playerIndex].classList.add('move_left');
     }
 }
 
 function movePlayer(event) {
+    resetOrientation();
     if (event.keyCode == 38) {
         movePlayerUp();
     }
