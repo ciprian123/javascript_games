@@ -4,6 +4,7 @@ const userScore = document.querySelector("#score");
 const gameMap = document.querySelector("#map");
 
 let tmpScore = 0;
+let gameOver = false;
 
 const mapWidth = 17;
 const mapHeight = 17;
@@ -25,10 +26,6 @@ function renderMap() {
         else if (Config.map[i] == 3) {
             // wall tile
             tile.classList.add('roadTile')
-        }
-        else if (Config.map[i] == 4) {
-            // ghost tile
-            tile.classList.add('ghostTile');
         }
         else if (Config.map[i] == 0) {
             // player tile
@@ -153,10 +150,14 @@ function movePlayer(event) {
     else if (event.keyCode == 39) {
         movePlayerRight();
     }
-}
+    if (Config.tiles[playerIndex].classList.contains('pinky') ||
+        Config.tiles[playerIndex].classList.contains('inky') ||
+        Config.tiles[playerIndex].classList.contains('blinky') ||
+        Config.tiles[playerIndex].classList.contains('clyde') ) {
+        alertGameOver();
+    }
 
-function resetMap() {
-    Config.tiles = [...Config.defaultTiles]
+    console.log(Config.tiles[playerIndex].classList);
 }
 
 renderMap(); 
@@ -175,6 +176,38 @@ Config.tiles[ghostIndex2].classList.add('inky');
 Config.tiles[ghostIndex3].classList.add('pinky');
 Config.tiles[ghostIndex4].classList.add('clyde');
 
+// function to reset powerUps
+function resetPoweUps() {
+    Config.tiles.forEach(tile => {
+        if (tile.classList.contains('powerUpTile')) {
+            tile.classList.remove('powerUpTile');
+        }
+    })
+}
+
+// function to generate random 5 power ups
+function generatePoweUps() {
+    resetPoweUps();
+    let availablePositions = Config.tiles.filter(tile => !tile.classList.contains('playerTile') &&
+                                                        !tile.classList.contains('wallTile') &&
+                                                        !tile.classList.contains('ghostTile')
+                                                );
+
+    let powerUpIndex1 = parseInt(Math.random() * availablePositions.length);
+    let powerUpIndex2 = parseInt(Math.random() * availablePositions.length);
+    let powerUpIndex3 = parseInt(Math.random() * availablePositions.length);
+    let powerUpIndex4 = parseInt(Math.random() * availablePositions.length);
+    let powerUpIndex5 = parseInt(Math.random() * availablePositions.length);
+
+
+    availablePositions[powerUpIndex1].classList.add('powerUpTile');
+    availablePositions[powerUpIndex2].classList.add('powerUpTile');
+    availablePositions[powerUpIndex3].classList.add('powerUpTile');
+    availablePositions[powerUpIndex4].classList.add('powerUpTile');
+    availablePositions[powerUpIndex5].classList.add('powerUpTile');
+}
+
+
 function isValidGhostMoveIndex(index) {
     return index >= 0 && 
            index < Config.tiles.length &&
@@ -188,7 +221,6 @@ function isValidGhostMoveIndex(index) {
 
 function rotateArray(arr) {
     arr.sort(() => Math.random() - 0.5);
-    console.log(arr);
 }
 
 function clearGhost(index) {
@@ -214,6 +246,17 @@ function getGhost(index) {
     return '';
 }
 
+function alertGameOver() {
+    gameOver = true;
+    Config.tiles[playerIndex].classList.add('gameOverPlayer');
+
+    // adding a small delay defore showing game over pop up
+    setTimeout(function(){
+        window.alert('GAME OVER!');
+        window.location.href = window.location.href;
+    }, 1000);
+}
+
 function moveGhostEasyDifficulty(ghostIndex) {
     let directions = [];
 
@@ -237,6 +280,12 @@ function moveGhostEasyDifficulty(ghostIndex) {
         Config.tiles[ghostIndex].classList.add('pointTile');
     }
     ghostIndex += direction;
+    if (Config.tiles[ghostIndex].classList.contains('move_up') ||
+        Config.tiles[ghostIndex].classList.contains('move_down') ||
+        Config.tiles[ghostIndex].classList.contains('move_left') ||
+        Config.tiles[ghostIndex].classList.contains('move_right')) {
+            alertGameOver();
+    }
     Config.tiles[ghostIndex].classList.remove('pointTile');
     Config.tiles[ghostIndex].classList.add(ghostName);
     rotateArray(directions);
@@ -244,19 +293,54 @@ function moveGhostEasyDifficulty(ghostIndex) {
     return ghostIndex;
 }
 
-setInterval(() => {
-    ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
-    console.log(1);
+
+generatePoweUps();
+
+const moveGhost1 = setInterval(() => {
+    if (!gameOver) {
+        ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
+    } else {
+        clearInterval(moveGhost1);
+    }
+    for (let i = 0; i < Config.tiles.length; ++i) {
+        if (Config.tiles[i].classList.contains('inky') ||
+            Config.tiles[i].classList.contains('pinky') ||
+            Config.tiles[i].classList.contains('blinky') ||
+            Config.tiles[i].classList.contains('clyde') ) {
+            console.log(i);
+        }
+    }
+    console.log("*************************");
 }, 1500);
 
-setInterval(() => {
-    ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
+const moveGhost2 = setInterval(() => {
+    if (!gameOver) {
+        ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
+    } else {
+        clearInterval(moveGhost2);
+    }
 }, 2000);
 
-setInterval(() => {
-    ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
+const moveGhost3 = setInterval(() => {
+    if (!gameOver) {
+        ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
+    } else {
+        clearInterval(moveGhost3);
+    }
 }, 2500);
 
-setInterval(() => {
-    ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
+const moveGhost4 = setInterval(() => {
+    if (!gameOver) {
+        ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
+    } else {
+        clearInterval(ghostIndex4);
+    }
 }, 2700);
+
+const generatePowers = setInterval(() => {
+    if (!gameOver) {
+        generatePoweUps();
+    } else {
+        clearInterval(generatePoweUps);
+    }
+}, 25000);

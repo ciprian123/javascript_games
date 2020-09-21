@@ -71,6 +71,14 @@ body {
     background: url('assets/clyde.png');
 }
 
+.powerUpTile {
+    background: url('assets/powerup.png');
+}
+
+.gameOverPlayer {
+    background: url('assets/gameover_player.png');
+}
+
 #map {
     width: 425px;
     height: 425px;
