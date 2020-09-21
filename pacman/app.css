@@ -79,6 +79,10 @@ body {
     background: url('assets/gameover_player.png');
 }
 
+.scaredGhost {
+    background: url('assets/scaredGhost.png');
+}
+
 #map {
     width: 425px;
     height: 425px;
