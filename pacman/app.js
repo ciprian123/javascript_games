@@ -52,6 +52,29 @@ function updateUserScore() {
             scareGhosts();
         }
     }
+    if (isPowerdUp && (playerIndex == ghostIndex1 ||
+                        playerIndex == ghostIndex2 ||
+                        playerIndex == ghostIndex3 ||
+                        playerIndex == ghostIndex4)) {
+        console.log(playerIndex);
+        Config.tiles[playerIndex].classList.remove('pinky');
+        Config.tiles[playerIndex].classList.remove('blinky');
+        Config.tiles[playerIndex].classList.remove('inky');
+        Config.tiles[playerIndex].classList.remove('clyde');
+        Config.tiles[playerIndex].classList.remove('scaredGhost');
+        if (playerIndex == ghostIndex1) { 
+            ghostIndex1 = -1;
+        }
+        if (playerIndex == ghostIndex2) {
+            ghostIndex2 = -1;
+        }
+        if (playerIndex == ghostIndex3) {
+            ghostIndex3 = -1;
+        }
+        if (playerIndex == ghostIndex4) {
+            ghostIndex4 = -1;
+        }
+    }
     userScore.innerHTML = tmpScore;
 }
 
@@ -161,10 +184,11 @@ function movePlayer(event) {
     else if (event.keyCode == 39) {
         movePlayerRight();
     }
-    if (Config.tiles[playerIndex].classList.contains('pinky') ||
+    if (!isPowerdUp && (
+        Config.tiles[playerIndex].classList.contains('pinky') ||
         Config.tiles[playerIndex].classList.contains('inky') ||
         Config.tiles[playerIndex].classList.contains('blinky') ||
-        Config.tiles[playerIndex].classList.contains('clyde') ) {
+        Config.tiles[playerIndex].classList.contains('clyde') )) {
         alertGameOver();
     }
 }
@@ -297,10 +321,11 @@ function moveGhostEasyDifficulty(ghostIndex) {
     Config.tiles[ghostIndex].classList.remove('scaredGhost');
     ghostIndex += direction;
 
-    if (Config.tiles[ghostIndex].classList.contains('move_up') ||
+    if (!isPowerdUp && (
+        Config.tiles[ghostIndex].classList.contains('move_up') ||
         Config.tiles[ghostIndex].classList.contains('move_down') ||
         Config.tiles[ghostIndex].classList.contains('move_left') ||
-        Config.tiles[ghostIndex].classList.contains('move_right')) {
+        Config.tiles[ghostIndex].classList.contains('move_right'))) {
             alertGameOver();
     }
     Config.tiles[ghostIndex].classList.remove('powerUpTile');
@@ -320,24 +345,40 @@ function moveGhostEasyDifficulty(ghostIndex) {
 generatePoweUps();
 
 function scareGhosts() {
-    Config.tiles[ghostIndex1].classList.add('scaredGhost');
-    Config.tiles[ghostIndex2].classList.add('scaredGhost');
-    Config.tiles[ghostIndex3].classList.add('scaredGhost');
-    Config.tiles[ghostIndex4].classList.add('scaredGhost');
+    if (ghostIndex1 != -1) {
+        Config.tiles[ghostIndex1].classList.add('scaredGhost');
+    }
+    if (ghostIndex2 != -1) {
+        Config.tiles[ghostIndex2].classList.add('scaredGhost');
+    }
+    if (ghostIndex3 != -1) {
+        Config.tiles[ghostIndex3].classList.add('scaredGhost');
+    }
+    if (ghostIndex4 != - 1) {
+        Config.tiles[ghostIndex4].classList.add('scaredGhost');
+    }
     isPowerdUp = true;
 
     // scare the ghosts for 15 seconds
     setTimeout(() => {
         isPowerdUp = false;
-        Config.tiles[ghostIndex1].classList.remove('scaredGhost');
-        Config.tiles[ghostIndex2].classList.remove('scaredGhost');
-        Config.tiles[ghostIndex3].classList.remove('scaredGhost');
-        Config.tiles[ghostIndex4].classList.remove('scaredGhost');
+        if (ghostIndex1 != -1) {
+            Config.tiles[ghostIndex1].classList.remove('scaredGhost');
+        }
+        if (ghostIndex2 != -1) {
+            Config.tiles[ghostIndex2].classList.remove('scaredGhost');
+        }
+        if (ghostIndex3 != -1) {
+            Config.tiles[ghostIndex3].classList.remove('scaredGhost');
+        }
+        if (ghostIndex4 != - 1) {
+            Config.tiles[ghostIndex4].classList.remove('scaredGhost');
+        }
     }, 15000);
 }
 
 const moveGhost1 = setInterval(() => {
-    if (!gameOver) {
+    if (!gameOver && ghostIndex1 != -1) {
         ghostIndex1 = moveGhostEasyDifficulty(ghostIndex1);
     } else {
         clearInterval(moveGhost1);
@@ -345,7 +386,7 @@ const moveGhost1 = setInterval(() => {
 }, 1500);
 
 const moveGhost2 = setInterval(() => {
-    if (!gameOver) {
+    if (!gameOver && ghostIndex2 != -1) {
         ghostIndex2 = moveGhostEasyDifficulty(ghostIndex2);
     } else {
         clearInterval(moveGhost2);
@@ -353,7 +394,7 @@ const moveGhost2 = setInterval(() => {
 }, 2000);
 
 const moveGhost3 = setInterval(() => {
-    if (!gameOver) {
+    if (!gameOver && ghostIndex3 != -1) {
         ghostIndex3 = moveGhostEasyDifficulty(ghostIndex3);
     } else {
         clearInterval(moveGhost3);
@@ -361,7 +402,7 @@ const moveGhost3 = setInterval(() => {
 }, 2500);
 
 const moveGhost4 = setInterval(() => {
-    if (!gameOver) {
+    if (!gameOver && ghostIndex4 != -1) {
         ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
     } else {
         clearInterval(ghostIndex4);
