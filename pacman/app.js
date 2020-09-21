@@ -56,24 +56,8 @@ function updateUserScore() {
                         playerIndex == ghostIndex2 ||
                         playerIndex == ghostIndex3 ||
                         playerIndex == ghostIndex4)) {
-        console.log(playerIndex);
-        Config.tiles[playerIndex].classList.remove('pinky');
-        Config.tiles[playerIndex].classList.remove('blinky');
-        Config.tiles[playerIndex].classList.remove('inky');
-        Config.tiles[playerIndex].classList.remove('clyde');
-        Config.tiles[playerIndex].classList.remove('scaredGhost');
-        if (playerIndex == ghostIndex1) { 
-            ghostIndex1 = -1;
-        }
-        if (playerIndex == ghostIndex2) {
-            ghostIndex2 = -1;
-        }
-        if (playerIndex == ghostIndex3) {
-            ghostIndex3 = -1;
-        }
-        if (playerIndex == ghostIndex4) {
-            ghostIndex4 = -1;
-        }
+        tmpScore += 20;
+        clearGhost(playerIndex);
     }
     userScore.innerHTML = tmpScore;
 }
@@ -244,7 +228,6 @@ function generatePoweUps() {
     availablePositions[powerUpIndex4].classList.add('powerUpTile');
 }
 
-
 function isValidGhostMoveIndex(index) {
     return index >= 0 && 
            index < Config.tiles.length &&
@@ -257,15 +240,12 @@ function isValidGhostMoveIndex(index) {
            !Config.tiles[index].classList.contains('powerUpTile');
 }
 
-function rotateArray(arr) {
-    arr.sort(() => Math.random() - 0.5);
-}
-
 function clearGhost(index) {
     Config.tiles[index].classList.remove('blinky');
     Config.tiles[index].classList.remove('inky');
     Config.tiles[index].classList.remove('pinky');
     Config.tiles[index].classList.remove('clyde');
+    Config.tiles[index].classList.remove('scaredGhost');
 }
 
 function getGhost(index) {
@@ -295,9 +275,27 @@ function alertGameOver() {
     }, 1000);
 }
 
-function moveGhostEasyDifficulty(ghostIndex) {
-    let directions = [];
+function thereAreMoreGhosts() {
+    let flag = false;
+    Config.tiles.forEach(tile => {
+        if (tile.classList.contains('pinky') ||
+            tile.classList.contains('blinky') ||
+            tile.classList.contains('inky') ||
+            tile.classList.contains('clyde')
+        ) {
+            flag = true;
+        }
+    });
+    return flag;
+}
 
+function moveGhostEasyDifficulty(ghostIndex) {
+    if (!thereAreMoreGhosts()) {
+        alertGameOver();
+        return;
+    }
+
+    let directions = [];
     if (isValidGhostMoveIndex(ghostIndex + 1)) {
         directions.push(1);
     }
@@ -337,7 +335,6 @@ function moveGhostEasyDifficulty(ghostIndex) {
     else {
         Config.tiles[ghostIndex].classList.remove('scaredGhost');
     }
-    rotateArray(directions);
 
     return ghostIndex;
 }
@@ -374,7 +371,7 @@ function scareGhosts() {
         if (ghostIndex4 != - 1) {
             Config.tiles[ghostIndex4].classList.remove('scaredGhost');
         }
-    }, 15000);
+    }, Config.scareGhostInterval);
 }
 
 const moveGhost1 = setInterval(() => {
@@ -383,7 +380,7 @@ const moveGhost1 = setInterval(() => {
     } else {
         clearInterval(moveGhost1);
     }
-}, 1500);
+}, Config.ghost1Speed);
 
 const moveGhost2 = setInterval(() => {
     if (!gameOver && ghostIndex2 != -1) {
@@ -391,7 +388,7 @@ const moveGhost2 = setInterval(() => {
     } else {
         clearInterval(moveGhost2);
     }
-}, 2000);
+}, Config.ghost2Speed);
 
 const moveGhost3 = setInterval(() => {
     if (!gameOver && ghostIndex3 != -1) {
@@ -399,15 +396,15 @@ const moveGhost3 = setInterval(() => {
     } else {
         clearInterval(moveGhost3);
     }
-}, 2500);
+}, Config.ghost3Speed);
 
 const moveGhost4 = setInterval(() => {
     if (!gameOver && ghostIndex4 != -1) {
         ghostIndex4 = moveGhostEasyDifficulty(ghostIndex4);
     } else {
-        clearInterval(ghostIndex4);
+        clearInterval(moveGhost4);
     }
-}, 2700);
+}, Config.ghost4Speed);
 
 const generatePowers = setInterval(() => {
     if (!gameOver) {
@@ -415,4 +412,4 @@ const generatePowers = setInterval(() => {
     } else {
         clearInterval(generatePoweUps);
     }
-}, 60000);
+}, Config.generatePoweUpsInterval);

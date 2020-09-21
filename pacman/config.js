@@ -25,3 +25,11 @@ export const map = [1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,
 export const tiles = [];
 export const eatenPointsSoRar = [];
 export const defaultTiles = [];
+
+export const ghost1Speed = 1000;
+export const ghost2Speed = 1500;
+export const ghost3Speed = 2000;
+export const ghost4Speed = 2500;
+
+export const scareGhostInterval = 15000;
+export const generatePoweUpsInterval = 60000;
