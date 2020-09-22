@@ -57,6 +57,18 @@ function updateUserScore() {
                         playerIndex == ghostIndex3 ||
                         playerIndex == ghostIndex4)) {
         tmpScore += 20;
+        if (playerIndex == ghostIndex1) {
+            ghostIndex1 = -1;
+        }
+        if (playerIndex == ghostIndex2) {
+            ghostIndex2 = -1;
+        }
+        if (playerIndex == ghostIndex3) {
+            ghostIndex3 = -1;
+        }
+        if (playerIndex == ghostIndex4) {
+            ghostIndex4 = -1;
+        }
         clearGhost(playerIndex);
     }
     userScore.innerHTML = tmpScore;
@@ -152,6 +164,10 @@ function movePlayerRight() {
 }
 
 function movePlayer(event) {
+    if (!thereAreMoreGhosts()) {
+        alertGameWon();
+        return;
+    }
     if (gameOver == true) {
         return;
     }
@@ -275,6 +291,14 @@ function alertGameOver() {
     }, 1000);
 }
 
+function alertGameWon() {
+    gameOver = true;
+    setTimeout(function(){
+        window.alert('YOU WON!');
+        window.location.href = window.location.href;
+    }, 1000);
+}
+
 function thereAreMoreGhosts() {
     let flag = false;
     Config.tiles.forEach(tile => {
@@ -290,11 +314,6 @@ function thereAreMoreGhosts() {
 }
 
 function moveGhostEasyDifficulty(ghostIndex) {
-    if (!thereAreMoreGhosts()) {
-        alertGameOver();
-        return;
-    }
-
     let directions = [];
     if (isValidGhostMoveIndex(ghostIndex + 1)) {
         directions.push(1);
