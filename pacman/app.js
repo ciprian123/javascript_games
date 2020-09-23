@@ -57,6 +57,7 @@ function updateUserScore() {
                         playerIndex == ghostIndex3 ||
                         playerIndex == ghostIndex4)) {
         tmpScore += 20;
+        Config.eatGhostSound.play();
         if (playerIndex == ghostIndex1) {
             ghostIndex1 = -1;
         }
@@ -195,6 +196,11 @@ function movePlayer(event) {
 
 renderMap(); 
 
+// start the background sound
+Config.backgroundSound.play();
+Config.backgroundSound.loop = true;
+
+
 document.addEventListener('keyup', movePlayer);
 
 
@@ -283,6 +289,9 @@ function getGhost(index) {
 function alertGameOver() {
     gameOver = true;
     Config.tiles[playerIndex].classList.add('gameOverPlayer');
+
+    Config.backgroundSound.pause();
+    Config.gameOverSound.play();
 
     // adding a small delay defore showing game over pop up
     setTimeout(function(){
@@ -429,6 +438,6 @@ const generatePowers = setInterval(() => {
     if (!gameOver) {
         generatePoweUps();
     } else {
-        clearInterval(generatePoweUps);
+        clearInterval(generatePowers);
     }
 }, Config.generatePoweUpsInterval);

@@ -9,7 +9,7 @@ export const map = [1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,
                     1,2,1,1,1,2,1,1,2,1,1,2,1,1,1,2,1,
                     1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,
                     1,2,1,2,1,2,1,1,2,1,1,2,1,2,1,2,1,
-                    1,2,1,2,1,2,1,1,2,1,1,2,1,2,1,2,1,
+                    1,2,1,2,1,2,2,2,2,2,2,2,1,2,1,2,1,
                     1,2,2,2,2,2,1,1,2,1,1,2,2,2,2,2,1,
                     1,2,1,1,1,2,1,3,3,3,1,2,1,1,1,2,1,
                     2,2,2,2,2,2,2,3,0,3,2,2,2,2,2,2,2,
@@ -33,3 +33,7 @@ export const ghost4Speed = 2000;
 
 export const scareGhostInterval = 5000;
 export const generatePoweUpsInterval = 60000;
+
+export const backgroundSound = new Audio('assets/sound/pacman_intro.mp3');
+export const gameOverSound = new Audio('assets/sound/pacman_death.mp3');
+export const eatGhostSound = new Audio('assets/sound/pacman_eatghost.wav');
