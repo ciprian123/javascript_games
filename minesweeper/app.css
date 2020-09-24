@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
 #map {
     display: flex;
     flex-wrap: wrap;
@@ -20,4 +26,7 @@
 
 .dataTile {
     text-align: center;
+    position: relative;
+    top: -10px;
+    font-weight: bold;
 }

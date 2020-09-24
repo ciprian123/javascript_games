@@ -49,10 +49,12 @@ function generateBombs(noOfBombs, mapWidth, mapHeight) {
                     if (isValidPosition(tmpX, tmpY, mapWidth, mapHeight) &&
                         gameMapGrid[tmpY][tmpX].classList.contains('bomb')) {
                         counter++;
-                        gameMapGrid[tmpY][tmpX].classList.add('dataTile');
                     }
                 }
-                gameMapGrid[i][j].innerHTML = counter;
+                const textCounterTile = document.createElement('p');
+                textCounterTile.classList.add('dataTile');
+                textCounterTile.innerHTML = counter;
+                gameMapGrid[i][j].append(textCounterTile);
             }
         }
     }
