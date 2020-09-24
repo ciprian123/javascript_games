@@ -13,3 +13,7 @@
     background: #b0bec5;
     border: 1px solid black;
 }
+
+.bomb {
+    background: red;
+}
