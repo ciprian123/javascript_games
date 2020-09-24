@@ -18,6 +18,10 @@ function createMap(mapWidth, mapHeight) {
     }
 }
 
+function isValidPosition(xPos, yPos, xMax, yMax) {
+    return xPos >= 0 && xPos < xMax && yPos >= 0 && yPos < yMax;
+}
+
 function generateBombs(noOfBombs, mapWidth, mapHeight) {
     let bombs = []
     for (let i = 0; i < noOfBombs; ++i) {
@@ -31,6 +35,26 @@ function generateBombs(noOfBombs, mapWidth, mapHeight) {
         }
         bombs.push([yCoord, xCoord]);
         gameMapGrid[yCoord][xCoord].classList.add('bomb');
+    }
+
+    const directionX = [1, -1, 0, 0, 1, -1, 1, -1];
+    const directionY = [0, 0, 1, -1, 1, -1, -1, 1];
+    for (let i = 0; i < mapHeight; ++i) {
+        for (let j = 0; j < mapWidth; ++j) {
+            if (!gameMapGrid[i][j].classList.contains('bomb')) {
+                let counter = 0;
+                for (let k = 0; k < 8; ++k) {
+                    let tmpX = j + directionX[k];
+                    let tmpY = i + directionY[k];
+                    if (isValidPosition(tmpX, tmpY, mapWidth, mapHeight) &&
+                        gameMapGrid[tmpY][tmpX].classList.contains('bomb')) {
+                        counter++;
+                        gameMapGrid[tmpY][tmpX].classList.add('dataTile');
+                    }
+                }
+                gameMapGrid[i][j].innerHTML = counter;
+            }
+        }
     }
 }
 
