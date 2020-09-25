@@ -16,8 +16,9 @@ body {
 .tile {
     width: 30px;
     height: 30px;
-    background: #b0bec5;
+    background: #a7ffeb;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .bomb {
@@ -29,4 +30,8 @@ body {
     position: relative;
     top: -10px;
     font-weight: bold;
+}
+
+.visited {
+    background: grey;
 }
