@@ -1,7 +1,16 @@
-const gameMap = document.querySelector('#map');
-const gameMapGrid = [];
+let gameMap = document.querySelector('#map');
+let gameMapGrid = [];
+
+const btn9x9 = document.querySelector("#i9x9");
+const btn16x16 = document.querySelector("#i16x16");
+const btn30x16 = document.querySelector("#i30x16");
+
 
 function createMap(mapWidth, mapHeight) {
+    // reset the map
+    gameMapGrid = []
+    gameMap.textContent = '';
+
     // set map width and height based on mapSize param
     gameMap.style.width = (32 * mapWidth) + 'px';
     gameMap.style.height = (32 * mapHeight) + 'px';
@@ -68,6 +77,8 @@ function generateBombs(noOfBombs, mapWidth, mapHeight) {
             }
         }
     }
+
+    addTileEvents();
 }
 
 function isValidToSearch(i, j) {
@@ -104,12 +115,6 @@ function uncoverDataOnClick(i, j) {
 }
 
 function alertGameOver() {
-    // for (let i = 0; i < gameMap.length; ++i) {
-    //     if (gameMap[i].classList.contains('bomb')) {
-    //         gameMap[i].classList.remove('hidden_bomb');
-    //     }
-    // }
-
     for (let i = 0; i < gameMapGrid.length; ++i) {
         for (let j = 0; j < gameMapGrid[0].length; ++j) {
             if (gameMapGrid[i][j].classList.contains('bomb')) {
@@ -128,18 +133,37 @@ function alertGameOver() {
 createMap(9, 9);
 generateBombs(10, 9, 9);
 
-for (let i = 0; i < gameMapGrid.length; ++i) {
-    for (let j = 0; j < gameMapGrid[0].length; ++j) {
-        gameMapGrid[i][j].addEventListener('click', (e) => {
-            let targetId = e.target.id;
-            if (targetId.indexOf("p") >= 0) {
-                targetId = targetId.replace("p.", "");
-            }
-            let yCoord = parseInt(targetId.split('.')[0]);
-            let xCoord = parseInt(targetId.split('.')[1]);
 
-            // console.log(yCoord + ' ' + xCoord);
-            uncoverDataOnClick(yCoord, xCoord);
-        })
+btn9x9.addEventListener('click', () => {
+    createMap(9, 9);
+    generateBombs(10, 9, 9);
+});
+
+btn16x16.addEventListener('click', () => {
+    createMap(16, 16);
+    generateBombs(18, 16, 16);
+});
+
+btn30x16.addEventListener('click', () => {
+    createMap(30, 16);
+    generateBombs(30, 30, 16);
+});
+
+
+function addTileEvents() {
+    for (let i = 0; i < gameMapGrid.length; ++i) {
+        for (let j = 0; j < gameMapGrid[0].length; ++j) {
+            gameMapGrid[i][j].addEventListener('click', (e) => {
+                let targetId = e.target.id;
+                if (targetId.indexOf("p") >= 0) {
+                    targetId = targetId.replace("p.", "");
+                }
+                let yCoord = parseInt(targetId.split('.')[0]);
+                let xCoord = parseInt(targetId.split('.')[1]);
+
+                // console.log(yCoord + ' ' + xCoord);
+                uncoverDataOnClick(yCoord, xCoord);
+            })
+        }
     }
 }

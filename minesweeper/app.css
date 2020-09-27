@@ -4,13 +4,44 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+header {
+    width: 100%;
+    height: 60px;
+    background: #607d8b;
+    box-shadow: 0 0 15px #424242;
+}
+
+.container {
+    width: 50%;
+    height: 60px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.game_option {
+    margin: 12px 32px;
+    padding: 0 20px;
+    height: 32px;
+    background: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: .5s;
+}
+
+.game_option:hover {
+    background: #cfd8dc;
+}
+
 #map {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
     margin: auto;
     position: relative;
-    top: 90px;
+    top: 50px;
 }
 
 .tile {
