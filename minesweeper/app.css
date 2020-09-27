@@ -16,9 +16,9 @@ body {
 .tile {
     width: 30px;
     height: 30px;
-    background: #a7ffeb;
     border: 1px solid black;
     cursor: pointer;
+    background: #ff6f00;
 }
 
 .bomb {
@@ -33,5 +33,18 @@ body {
 }
 
 .visited {
-    background: grey;
+    background: #c5cae9;
+}
+
+.hidden {
+    display: none;
+}
+
+.hidden_bomb {
+    background:#ff6f00;
+}
+
+.hidden_zero {
+    background:#c5cae9;
+    color: #c5cae9;
 }

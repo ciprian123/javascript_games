@@ -17,6 +17,7 @@ function createMap(mapWidth, mapHeight) {
             // each tile's paragraph will have the id its coordonates separated by dots
             const textCounterTile = document.createElement('p');
             textCounterTile.classList.add('dataTile');
+            textCounterTile.classList.add('hidden');
 
             textCounterTile.setAttribute('id', 'p.' + i + '.' + j)
             tile.append(textCounterTile);
@@ -45,6 +46,7 @@ function generateBombs(noOfBombs, mapWidth, mapHeight) {
         }
         bombs.push([yCoord, xCoord]);
         gameMapGrid[yCoord][xCoord].classList.add('bomb');
+        gameMapGrid[yCoord][xCoord].classList.add('hidden_bomb');
     }
 
     const directionX = [1, -1, 0, 0, 1, -1, 1, -1];
@@ -83,21 +85,43 @@ function uncoverDataOnClick(i, j) {
         return;
     }
     if (gameMapGrid[i][j].classList.contains('bomb')) {
-        window.alert('Game over');
+        alertGameOver();
     } else if (!gameMapGrid[i][j].classList.contains('visited')) {
         gameMapGrid[i][j].classList.add('visited');
-        const directionX = [1, -1, 0, 0, 1, -1, 1, -1];
-        const directionY = [0, 0, 1, -1, 1, -1, -1, 1];
-        for (let k = 0; k < 8; ++k) {
-            if (isValidToSearch(i + directionY[k], j + directionX[k])) {
-                if (document.getElementById('p.' + i + '.' + j).innerHTML == '0' &&
-                   (document.getElementById('p.' + (i + directionY[k]) + '.' + (j + directionX[k])).innerHTML == '0' ||
-                    document.getElementById('p.' + (i + directionY[k]) + '.' + (j + directionX[k])).innerHTML != '0')  
-                )
-                uncoverDataOnClick(i + directionY[k], j + directionX[k]);
+        document.getElementById('p.' + i + '.' + j).style.display = 'block';
+
+        if (document.getElementById('p.' + i + '.' + j).innerHTML == '0') {
+            const directionX = [1, -1, 0, 0, 1, -1, 1, -1];
+            const directionY = [0, 0, 1, -1, 1, -1, -1, 1];
+            for (let k = 0; k < 8; ++k) {
+                if (isValidToSearch(i + directionY[k], j + directionX[k])) {
+                    document.getElementById(i + '.' + j).classList.add('hidden_zero');
+                    uncoverDataOnClick(i + directionY[k], j + directionX[k]);
+                }
             }
         }
     }
+}
+
+function alertGameOver() {
+    // for (let i = 0; i < gameMap.length; ++i) {
+    //     if (gameMap[i].classList.contains('bomb')) {
+    //         gameMap[i].classList.remove('hidden_bomb');
+    //     }
+    // }
+
+    for (let i = 0; i < gameMapGrid.length; ++i) {
+        for (let j = 0; j < gameMapGrid[0].length; ++j) {
+            if (gameMapGrid[i][j].classList.contains('bomb')) {
+                gameMapGrid[i][j].classList.remove('hidden_bomb');
+            }
+        }
+    }
+
+    setTimeout(() => {
+        window.alert('Game over');
+        window.location.href = window.location.href; 
+    }, 1000);
 }
 
 // the game suports the following maps: 9 x 9, 16 x 16, 30 x 16
