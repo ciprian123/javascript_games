@@ -53,7 +53,7 @@ header {
 }
 
 .bomb {
-    background: red;
+    background: url('assets/bomb.png');
 }
 
 .dataTile {
